@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from config import Config
+from database import SQLALCHEMY_DATABASE_URI
 
-# Use the main Config class for database connection
+# Use the main database connection URL
 engine = create_engine(
-    Config.SQLALCHEMY_DATABASE_URI,
+    SQLALCHEMY_DATABASE_URI,
     connect_args={
         "ssl": True,
         "ssl_cert_reqs": "NONE"

@@ -10,11 +10,16 @@ from seed_db import seed_database
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from services.market import MarketService
+from database import SQLALCHEMY_DATABASE_URI, engine
 import atexit
 import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Use the database URL directly from database.py
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = engine.dialect.create_connect_args(engine.url)[1]
 
 # JWT Configuration
 app.config['JWT_SECRET_KEY'] = app.config['SECRET_KEY']

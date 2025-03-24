@@ -28,7 +28,7 @@ gunicorn==21.2.0
 
 # Database drivers
 pg8000==1.29.8
-psycopg2-binary==2.9.9  # Required for PostgreSQL
+psycopg2==2.9.10  # Required for PostgreSQL
 
 # Development tools
 pytest-cov==4.1.0  # For test coverage
