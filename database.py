@@ -4,19 +4,15 @@ from config import Config
 import psycopg2
 import os
 
-# Configure the PostgreSQL connection URL
-SQLALCHEMY_DATABASE_URI = "postgresql://kdlgates:vM6B8tG4uZO7Eu5WyNEauGapBtJ1g6J1@dpg-cvgiol3tq21c73e4d3fg-a/seedmart_xie3"
+# Configure the PostgreSQL connection URL with SSL parameters included in the URI
+SQLALCHEMY_DATABASE_URI = "postgresql://kdlgates:vM6B8tG4uZO7Eu5WyNEauGapBtJ1g6J1@dpg-cvgiol3tq21c73e4d3fg-a/seedmart_xie3?sslmode=require"
 
-# Create engine with specific configuration and proper SSL settings
+# Create engine with specific configuration
 engine = create_engine(
     SQLALCHEMY_DATABASE_URI,
     pool_pre_ping=True,  # Enable connection health checks
     pool_size=5,         # Set connection pool size
-    max_overflow=10,     # Allow up to 10 extra connections
-    connect_args={
-        "sslmode": "require",  # Require SSL connection
-        "sslrootcert": None    # Skip verification of SSL certificate
-    }
+    max_overflow=10      # Allow up to 10 extra connections
 )
 
 Session = sessionmaker(bind=engine)
@@ -30,11 +26,8 @@ def close_session(session):
 def get_db_connection():
     """Get a raw psycopg2 connection"""
     try:
-        conn = psycopg2.connect(
-            SQLALCHEMY_DATABASE_URI,
-            sslmode="require",
-            sslrootcert=None
-        )
+        # Use the connection string directly - don't add additional parameters
+        conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
         return conn
     except Exception as e:
         print(f"Error connecting to database: {e}")
