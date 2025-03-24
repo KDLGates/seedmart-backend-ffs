@@ -6,8 +6,8 @@ from database import SQLALCHEMY_DATABASE_URI
 engine = create_engine(
     SQLALCHEMY_DATABASE_URI,
     connect_args={
-        "ssl": True,
-        "ssl_cert_reqs": "NONE"
+        "sslmode": "require",  # Require SSL connection
+        "sslrootcert": None    # Skip verification of SSL certificate
     }
 )
 
